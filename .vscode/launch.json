@@ -18,7 +18,7 @@
             "request": "launch",
             "program": "changeSvg.py",
 
-            "args": ["cx=0_cy=0", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/123.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
+            "args": ["cx=0_cy=0", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/123b.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
         }        
     ]
 }

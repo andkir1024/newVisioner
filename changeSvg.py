@@ -42,11 +42,23 @@ root = tree.getroot()
 add = None
 doTwo = True
 doTwo = False
+for child in root:
+    index = child.tag.find('}') 
+    if index > 0:
+        tstSt = child.tag[index+1:]
+        if tstSt in 'namedview':
+            root.remove(child)
+
 for ii in range(len(root)):
     child = root[ii]
     index = child.tag.find('}') 
     if index > 0:
         tstSt = child.tag[index+1:]
+        # if tstSt in 'namedview':
+            # root.remove(child)
+            # xx = False
+            # xx = root.attrib.pop(child.tag, None)
+            # xx = child.attrib.pop(child.tag, None)
         if tstSt in 'g':
             for iiG in range(len(child)):
                 childG = child[iiG]
@@ -65,5 +77,6 @@ with open(nameDst, "r") as f:
 with open(nameDst, "w") as f:
     for line in lines:
         line = line.replace('ns0:', '')
+        line = line.replace(':ns0', '')
         f.write(line)
 print('finOk')
