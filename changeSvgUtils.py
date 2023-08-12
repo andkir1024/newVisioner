@@ -4,7 +4,8 @@ import re
 import math
 
 class svgSinglePath:
-    minX = maxX = minY = maxY = 0
+    minX = minY = 10000000
+    maxX = maxY = 0
     centerX = centerY = 0
     propLekalo = 1
     pathString = ""
@@ -14,6 +15,13 @@ class svgSinglePath:
         # нахождение положения path
         self.calkPathCoord(path)
         
+    def getGlobalMinMax(self, minX, minY, maxX, maxY):
+        minX = min(self.minX, minX)
+        minY = min(self.minY, minY)
+
+        maxX = max(self.maxX, maxX)
+        maxY = max(self.maxY, maxY)
+        return minX, minY, maxX, maxY
     def getMinMax(self, px, py):
         self.minX = min(self.minX, px)
         self.minY = min(self.minY, py)
@@ -177,7 +185,7 @@ class svgSinglePath:
         
         params =re.split('([M|L|C|V|H|m|l|c|v|h])',pathPure)
         return params
-    def doPath(self, path, morf):
+    def doPath(self, path, morf, globalSize):
         dx, dy, sx, sy, cx, cy, a = svgSinglePath.decodeMorph(morf)
         params =svgSinglePath.splitPath( path)
         newD = ''

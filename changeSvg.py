@@ -5,7 +5,7 @@ import re
 from xml.etree.ElementTree import Element
 from changeSvgUtils import *
 
-def doPathSvg(parent, child, doTwo, morf):
+def doPathSvg(parent, child, doTwo, morf, globalSize):
     path = str(child.attrib)
     path = path.replace('Z', 'z')
 
@@ -16,7 +16,7 @@ def doPathSvg(parent, child, doTwo, morf):
         found = m.group(1)
 
         svgPath = svgSinglePath(found)
-        newPath = svgPath.doPath(found, morf)
+        newPath = svgPath.doPath(found, morf, globalSize)
                     
         add = True
         width = '10'
@@ -33,17 +33,21 @@ def doPathSvg(parent, child, doTwo, morf):
             parent.append(newChild)
     return
 
+minX = minY = 10000000
+maxX = maxY = 0
+
 def getSizePathSvg(parent, child, doTwo, morf):
+    global  minX, maxX, minY, maxY
     path = str(child.attrib)
     path = path.replace('Z', 'z')
 
     child.attrib.pop("class", None)
     m = re.search('d\':(.+?)z', path)
     if m:
-        newChild = copy.deepcopy(child)
         found = m.group(1)
-
         svgPath = svgSinglePath(found)
+        minX, minY, maxX, maxY = svgPath.getGlobalMinMax(minX, minY, maxX, maxY)
+        pass
     return
 
 morfDst = sys.argv[1]
@@ -78,6 +82,8 @@ for ii in range(len(root)):
                 pass
         if tstSt in 'path':
             getSizePathSvg(root, child, doTwo, morfDst)
+            
+globalSize = [minX, minY, maxX, maxY]            
 
 # обработка всех Path
 for ii in range(len(root)):
@@ -90,14 +96,16 @@ for ii in range(len(root)):
                 childG = child[iiG]
                 tstStG = childG.tag[index+1:]
                 if tstStG in 'path':
-                    doPathSvg(child, childG, doTwo, morfDst)
+                    doPathSvg(child, childG, doTwo, morfDst, globalSize)
                 pass
         if tstSt in 'path':
-            doPathSvg(root, child, doTwo, morfDst)
+            doPathSvg(root, child, doTwo, morfDst, globalSize)
 
 
 ET.register_namespace("", "http://www.w3.org/2001")
-tree.write(nameDst)        
+tree.write(nameDst) 
+
+# удаление служебных ненужных символов
 with open(nameDst, "r") as f:
     lines = f.readlines()
 with open(nameDst, "w") as f:
