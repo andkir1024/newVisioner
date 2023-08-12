@@ -54,11 +54,6 @@ for ii in range(len(root)):
     index = child.tag.find('}') 
     if index > 0:
         tstSt = child.tag[index+1:]
-        # if tstSt in 'namedview':
-            # root.remove(child)
-            # xx = False
-            # xx = root.attrib.pop(child.tag, None)
-            # xx = child.attrib.pop(child.tag, None)
         if tstSt in 'g':
             for iiG in range(len(child)):
                 childG = child[iiG]
