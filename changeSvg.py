@@ -34,7 +34,7 @@ def doPathSvg(parent, child, doTwo, morf, globalSize):
     return
 
 minX = minY = 10000000
-maxX = maxY = 0
+maxX = maxY =-10000000 
 
 def getSizePathSvg(parent, child, doTwo, morf):
     global  minX, maxX, minY, maxY

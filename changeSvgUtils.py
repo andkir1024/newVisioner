@@ -5,7 +5,7 @@ import math
 
 class svgSinglePath:
     minX = minY = 10000000
-    maxX = maxY = 0
+    maxX = maxY =-10000000
     centerX = centerY = 0
     propLekalo = 1
     pathString = ""
@@ -101,8 +101,8 @@ class svgSinglePath:
             return None
         return result
     def calkPathCoord(self, path):
-        self.minX =self.minY = 100000
-        self.maxX =self.maxY = 0
+        self.minX =self.minY = 10000000
+        self.maxX =self.maxY =-10000000
         self.propLekalo = 1
         params =svgSinglePath.splitPath( path)
         for index, item in enumerate(params):
@@ -115,6 +115,14 @@ class svgSinglePath:
             if item == 'L':
                 res = svgSinglePath.getCoords(params[ index + 1])
                 self.getMinMax(res[0], res[1])
+            # if item == 'H':
+            #     tmp = params[ index + 1] + " , 0"
+            #     res = svgSinglePath.getCoords(tmp)
+            #     self.getMinMax(res[0], res[1])
+            # if item == 'V':
+            #     tmp = " 0, " + params[ index + 1]
+            #     res = svgSinglePath.getCoords(tmp)
+            #     self.getMinMax(res[0], res[1])
             if item == 'l':
                 res = svgSinglePath.getCoords(params[ index + 1])
                 self.currentX += res[0]
@@ -187,6 +195,8 @@ class svgSinglePath:
         return params
     def doPath(self, path, morf, globalSize):
         dx, dy, sx, sy, cx, cy, a = svgSinglePath.decodeMorph(morf)
+        dx = -globalSize[0]
+        dy = -globalSize[1]
         params =svgSinglePath.splitPath( path)
         newD = ''
         curX = curY = None
