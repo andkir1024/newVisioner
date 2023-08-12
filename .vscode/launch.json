@@ -13,16 +13,20 @@
             "justMyCode": true
         },
         {
-            "name": "Python: Test Console win 11",
+            "name": "Python: Console win 10",
             "type": "python",
             "request": "launch",
             "program": "changeSvg.py",
 
-<<<<<<< HEAD
             "args": ["cx=0_cy=0", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/123b.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
-=======
+        },
+        {
+            "name": "Python: Console win 11",
+            "type": "python",
+            "request": "launch",
+            "program": "changeSvg.py",
+
             "args": ["cx=0_cy=0", "C:/Works/andy/newVisioner/svgTest/123.svg","C:/Works/andy/newVisioner/svgTest/output3.svg"],
->>>>>>> aad4954421217b9e7ae4ab847302dfd6a0988745
         }        
     ]
 }

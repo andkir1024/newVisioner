@@ -33,6 +33,19 @@ def doPathSvg(parent, child, doTwo, morf):
             parent.append(newChild)
     return
 
+def getSizePathSvg(parent, child, doTwo, morf):
+    path = str(child.attrib)
+    path = path.replace('Z', 'z')
+
+    child.attrib.pop("class", None)
+    m = re.search('d\':(.+?)z', path)
+    if m:
+        newChild = copy.deepcopy(child)
+        found = m.group(1)
+
+        svgPath = svgSinglePath(found)
+    return
+
 morfDst = sys.argv[1]
 nameSrc = sys.argv[2]
 nameDst = sys.argv[3]
@@ -42,6 +55,7 @@ root = tree.getroot()
 add = None
 doTwo = True
 doTwo = False
+# удаление ненужных ветвей 
 for child in root:
     index = child.tag.find('}') 
     if index > 0:
@@ -49,6 +63,23 @@ for child in root:
         if tstSt in 'namedview':
             root.remove(child)
 
+# расчет размеров
+for ii in range(len(root)):
+    child = root[ii]
+    index = child.tag.find('}') 
+    if index > 0:
+        tstSt = child.tag[index+1:]
+        if tstSt in 'g':
+            for iiG in range(len(child)):
+                childG = child[iiG]
+                tstStG = childG.tag[index+1:]
+                if tstStG in 'path':
+                    getSizePathSvg(child, childG, doTwo, morfDst)
+                pass
+        if tstSt in 'path':
+            getSizePathSvg(root, child, doTwo, morfDst)
+
+# обработка всех Path
 for ii in range(len(root)):
     child = root[ii]
     index = child.tag.find('}') 
