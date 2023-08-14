@@ -58,9 +58,11 @@ class svgSinglePath:
                 pp = ((rs - self.centerY) * (1 + (scaleX*self.propLekalo))) + self.centerY + dy
         else:
             if isX:
-                pp = ((rs) * ((scaleX))) +  dx
+                # pp = ((rs) * ((scaleX))) +  dx
+                pp = ((rs - self.centerX) * (scaleX)) + self.centerX + dx
             else:
-                pp = ((rs) * ((scaleY))) +  dy
+                # pp = ((rs) * ((scaleY))) +  dy
+                pp = ((rs - self.centerY) * (scaleY)) + self.centerY + dy
         # pp = int(pp)
         return pp
     def doDigits(self, marker, digits, dx, dy, scaleX, scaleY):
@@ -237,6 +239,10 @@ in     Inches
 %       percentages
     '''
     def calkScaleMode1(self, sx, sy, globalSize, sizeSvg):
+        dx = globalSize[2]-globalSize[0]
+        dy = globalSize[3]-globalSize[1]
+        sx = dx/(dx+200)
+        sy = dy/(dy+200)
         return sx, sy
     def doPath(self, path, morf, globalSize, sizeSvg):
         dx, dy, sx, sy, cx, cy, a, m = svgSinglePath.decodeMorph(morf)
