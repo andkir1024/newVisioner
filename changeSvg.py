@@ -18,7 +18,6 @@ def doPathSvg(parent, child, doTwo, morf, globalSize, sizeSvg):
         svgPath = svgSinglePath(found)
         newPath = svgPath.doPath(found, morf, globalSize, sizeSvg)
                     
-        add = True
         width = '10'
         child.attrib['stroke']='blue'
         child.attrib['stroke-width']=width
@@ -56,7 +55,6 @@ nameDst = sys.argv[3]
 tree = ET.parse(nameSrc)
 root = tree.getroot()
 
-add = None
 doTwo = True
 doTwo = svgSinglePath.decodeIsTwo(morfDst)
 # doTwo = False

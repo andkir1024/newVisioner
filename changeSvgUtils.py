@@ -224,11 +224,27 @@ class svgSinglePath:
         
         params =re.split('([M|L|C|V|H|m|l|c|v|h])',pathPure)
         return params
+    
+    ''' размеры
+em     The default font size - usually the height of a character.
+ex     The height of the character x
+px     Pixels
+pt     Points (1 / 72 of an inch)
+pc     Picas (1 / 6 of an inch)
+cm     Centimeters
+mm     Millimeters
+in     Inches
+%       percentages
+    '''
+    def calkScaleMode1(self, sx, sy, globalSize, sizeSvg):
+        return sx, sy
     def doPath(self, path, morf, globalSize, sizeSvg):
         dx, dy, sx, sy, cx, cy, a, m = svgSinglePath.decodeMorph(morf)
         if m == 0:
             dx = -globalSize[0]
             dy = -globalSize[1]
+        if m == 1:
+            sx, sy = self.calkScaleMode1(sx, sy, globalSize, sizeSvg)
         params =svgSinglePath.splitPath( path)
         newD = ''
         curX = curY = None
