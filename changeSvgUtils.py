@@ -63,7 +63,7 @@ class svgSinglePath:
             else:
                 # pp = ((rs) * ((scaleY))) +  dy
                 pp = ((rs - self.centerY) * (scaleY)) + self.centerY + dy
-        # pp = int(pp)
+        pp = int(pp)
         return pp
     def doDigits(self, marker, digits, dx, dy, scaleX, scaleY):
         params = re.split(",| ", digits)    
@@ -135,6 +135,8 @@ class svgSinglePath:
                 self.getMinMax(self.currentX, self.currentY )
             if item == 'C':
                 res = svgSinglePath.getCoords(params[ index + 1])
+                self.currentX = res[4]
+                self.currentY = res[5]
                 self.getMinMax(res[4], res[5])
             # относительные координаты
             if item == 'l':
@@ -241,8 +243,14 @@ in     Inches
     def calkScaleMode1(self, sx, sy, globalSize, sizeSvg):
         dx = globalSize[2]-globalSize[0]
         dy = globalSize[3]-globalSize[1]
-        sx = dx/(dx+200)
-        sy = dy/(dy+200)
+        index = sizeSvg[0].find('mm')
+        if index >= 0:
+            size = int(sizeSvg[0][0:index])
+            viewBox = sizeSvg[2].split()
+            coff = int(viewBox[2])/size
+            disp = 1
+            sx = dx/(dx + (disp * coff))
+            sy = dy/(dy + (disp * coff))
         return sx, sy
     def doPath(self, path, morf, globalSize, sizeSvg):
         dx, dy, sx, sy, cx, cy, a, m = svgSinglePath.decodeMorph(morf)
@@ -262,8 +270,12 @@ in     Inches
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
                 res = self.doDigitsRelToAbs('M', digits, dx, dy, sx, sy)
             if item == 'L':
-                res = self.doDigits('L', params[ index + 1], dx, dy, sx, sy)
+                curX, curY, digits = self.convertRelToAbs(curX, curY, params[ index + 1])
+                svgSinglePath.rotateDigits(cx, cy, digits, a)
+                res = self.doDigitsRelToAbs('L', digits, dx, dy, sx, sy)
+                # res = self.doDigits('L', params[ index + 1], dx, dy, sx, sy)
             if item == 'C':
+                curX, curY, digits = self.convertRelToAbs(curX, curY, params[ index + 1])
                 res = self.doDigits('C', params[ index + 1], dx, dy, sx, sy)
             if item == 'V':
                 tmp = " 0, " + params[ index + 1]
@@ -278,21 +290,25 @@ in     Inches
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
                 res = self.doDigitsRelToAbs('L', digits, dx, dy, sx, sy)
             # относительный путь
+            isLast = True if (len(params) - index -2)>0 else False
             if item == 'l':
                 curX, curY, digits = self.convertRelToAbs(curX, curY, params[ index + 1])
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
-                res = self.doDigitsRelToAbs('L', digits, dx, dy, sx, sy)
+                if isLast :
+                    res = self.doDigitsRelToAbs('L', digits, dx, dy, sx, sy)
                 pass
             if item == 'h':
                 tmp = params[ index + 1] + " , 0"
                 curX, curY, digits = self.convertRelToAbs(curX, curY, tmp)
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
-                res = self.doDigitsRelToAbs('L', digits, dx, dy, sx, sy)
+                if isLast :
+                    res = self.doDigitsRelToAbs('L', digits, dx, dy, sx, sy)
             if item == 'v':
                 tmp = " 0, " + params[ index + 1]
                 curX, curY, digits = self.convertRelToAbs(curX, curY, tmp)
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
-                res = self.doDigitsRelToAbs('L', digits, dx, dy, sx, sy)
+                if isLast :
+                    res = self.doDigitsRelToAbs('L', digits, dx, dy, sx, sy)
             if item == 'c':
                 curX, curY, digits = self.convertRelToAbs(curX, curY, params[ index + 1])
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
