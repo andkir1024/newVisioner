@@ -107,6 +107,7 @@ class svgSinglePath:
         params =svgSinglePath.splitPath( path)
         for index, item in enumerate(params):
             res = None
+            # абсолютные координаты
             if item == 'M' or item == 'm':
                 res = svgSinglePath.getCoords(params[ index + 1])
                 self.currentX = res[0]
@@ -114,27 +115,44 @@ class svgSinglePath:
                 self.getMinMax(res[0], res[1])
             if item == 'L':
                 res = svgSinglePath.getCoords(params[ index + 1])
+                self.currentX = res[0]
+                self.currentY = res[1]
                 self.getMinMax(res[0], res[1])
-            # if item == 'H':
-            #     tmp = params[ index + 1] + " , 0"
-            #     res = svgSinglePath.getCoords(tmp)
-            #     self.getMinMax(res[0], res[1])
-            # if item == 'V':
-            #     tmp = " 0, " + params[ index + 1]
-            #     res = svgSinglePath.getCoords(tmp)
-            #     self.getMinMax(res[0], res[1])
+            if item == 'H':
+                tmp = params[ index + 1] + " , 0"
+                res = svgSinglePath.getCoords(tmp)
+                self.currentX = res[0]
+                self.getMinMax(self.currentX, self.currentY )
+            if item == 'V':
+                tmp = " 0, " + params[ index + 1]
+                res = svgSinglePath.getCoords(tmp)
+                self.currentY = res[1]
+                self.getMinMax(self.currentX, self.currentY )
+            if item == 'C':
+                res = svgSinglePath.getCoords(params[ index + 1])
+                self.getMinMax(res[4], res[5])
+            # относительные координаты
             if item == 'l':
                 res = svgSinglePath.getCoords(params[ index + 1])
                 self.currentX += res[0]
                 self.currentY += res[1]
                 self.getMinMax(self.currentX, self.currentY)
-            if item == 'C':
-                res = svgSinglePath.getCoords(params[ index + 1])
-                self.getMinMax(res[4], res[5])
             if item == 'c':
                 res = svgSinglePath.getCoords(params[ index + 1])
                 self.currentX += res[4]
                 self.currentY += res[5]
+                self.getMinMax(self.currentX, self.currentY)
+            if item == 'v':
+                tmp = " 0, " + params[ index + 1]
+                res = svgSinglePath.getCoords(tmp)
+                self.currentX += res[0]
+                self.currentY += res[1]
+                self.getMinMax(self.currentX, self.currentY)
+            if item == 'h':
+                tmp = params[ index + 1] + " , 0"
+                res = svgSinglePath.getCoords(tmp)
+                self.currentX += res[0]
+                self.currentY += res[1]
                 self.getMinMax(self.currentX, self.currentY)
             pass
         self.centerX = self.minX + (self.maxX - self.minX)/2
