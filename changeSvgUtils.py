@@ -45,7 +45,25 @@ class svgSinglePath:
         if len(result)==0:
             return None
         return result
-    def doDigits(self, marker, digits, dx, dy, scale):
+    def doDispAndScale(self, rs, index, dx, dy, scaleX, scaleY):
+        isX = True if (index%2)==0 else False
+        if scaleY < 0:
+            if scaleX>= 1:
+                scaleX = scaleX - int(scaleX)
+            else:
+                scaleX = -(1 - scaleX)
+            if isX:
+                pp = ((rs - self.centerX) * (1 + scaleX)) + self.centerX + dx
+            else:
+                pp = ((rs - self.centerY) * (1 + (scaleX*self.propLekalo))) + self.centerY + dy
+        else:
+            if isX:
+                pp = ((rs) * ((scaleX))) +  dx
+            else:
+                pp = ((rs) * ((scaleY))) +  dy
+        # pp = int(pp)
+        return pp
+    def doDigits(self, marker, digits, dx, dy, scaleX, scaleY):
         params = re.split(",| ", digits)    
         result = []
         for dg in params:
@@ -55,35 +73,20 @@ class svgSinglePath:
         if len(result)==0:
             return None
         out = marker 
-        scale = scale - int(scale)
         for index, rs in enumerate(result):
-            isX = True if (index%2)==0 else False
-            if isX:
-                pp = ((rs - self.centerX) * (1 + scale)) + self.centerX + dx
-            else:
-                pp = ((rs - self.centerY) * (1 + (scale*self.propLekalo))) + self.centerY + dy
-            # pp = int(pp)
+            pp = self.doDispAndScale(rs, index, dx, dy, scaleX, scaleY)
             if index < len(result)-1:
                 out = out + str(pp) + ','
             else:
                 out = out + str(pp) + ''
                 
         return out
-    def doDigitsRelToAbs(self, marker, digits, dx, dy, scale):
+    def doDigitsRelToAbs(self, marker, digits, dx, dy, scaleX, scaleY):
         if digits is None:
             return None
         out = marker 
-        if scale>= 1:
-            scale = scale - int(scale)
-        else:
-            scale = -(1 - scale)
         for index, rs in enumerate(digits):
-            isX = True if (index%2)==0 else False
-            if isX:
-                pp = ((rs - self.centerX) * (1 + scale)) + self.centerX + dx
-            else:
-                pp = ((rs - self.centerY) * (1 + (scale*self.propLekalo))) + self.centerY + dy
-            pp = int(pp)
+            pp = self.doDispAndScale(rs, index, dx, dy, scaleX, scaleY)
             if index < len(digits)-1:
                 out = out + str(pp) + ','
             else:
@@ -159,6 +162,13 @@ class svgSinglePath:
         self.centerY = self.minY + (self.maxY - self.minY)/2
         self.propLekalo = (self.maxX - self.minX)/(self.maxY - self.minY)
         return None
+    def decodeIsTwo(morf):
+        params = morf.split('_')
+        for pp in params:
+            vals = pp.split('=')
+            if vals[0] == 'src':
+                return True
+        return False
     def decodeMorph(morf):
         dx = dy = 0
         sx = sy = 1
@@ -214,7 +224,7 @@ class svgSinglePath:
         
         params =re.split('([M|L|C|V|H|m|l|c|v|h])',pathPure)
         return params
-    def doPath(self, path, morf, globalSize):
+    def doPath(self, path, morf, globalSize, sizeSvg):
         dx, dy, sx, sy, cx, cy, a, m = svgSinglePath.decodeMorph(morf)
         if m == 0:
             dx = -globalSize[0]
@@ -228,43 +238,43 @@ class svgSinglePath:
             if item == 'M' or item == 'm':
                 curX, curY, digits = self.convertRelToAbs(curX, curY, params[ index + 1])
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
-                res = self.doDigitsRelToAbs('M', digits, dx, dy, sx)
+                res = self.doDigitsRelToAbs('M', digits, dx, dy, sx, sy)
             if item == 'L':
-                res = self.doDigits('L', params[ index + 1], dx, dy, sx)
+                res = self.doDigits('L', params[ index + 1], dx, dy, sx, sy)
             if item == 'C':
-                res = self.doDigits('C', params[ index + 1], dx, dy, sx)
+                res = self.doDigits('C', params[ index + 1], dx, dy, sx, sy)
             if item == 'V':
                 tmp = " 0, " + params[ index + 1]
                 # curX, curY, digits = self.convertRelToAbs(None, None, tmp)
                 curX, curY, digits = self.convertVH(curX, curY, tmp, True)
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
-                res = self.doDigitsRelToAbs('L', digits, dx, dy, sx)
+                res = self.doDigitsRelToAbs('L', digits, dx, dy, sx, sy)
             if item == 'H':
                 tmp = params[ index + 1] + " , 0"
                 # curX, curY, digits = self.convertRelToAbs(curX, curY, tmp)
                 curX, curY, digits = self.convertVH(curX, curY, tmp, False)
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
-                res = self.doDigitsRelToAbs('L', digits, dx, dy, sx)
+                res = self.doDigitsRelToAbs('L', digits, dx, dy, sx, sy)
             # относительный путь
             if item == 'l':
                 curX, curY, digits = self.convertRelToAbs(curX, curY, params[ index + 1])
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
-                res = self.doDigitsRelToAbs('L', digits, dx, dy, sx)
+                res = self.doDigitsRelToAbs('L', digits, dx, dy, sx, sy)
                 pass
             if item == 'h':
                 tmp = params[ index + 1] + " , 0"
                 curX, curY, digits = self.convertRelToAbs(curX, curY, tmp)
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
-                res = self.doDigitsRelToAbs('L', digits, dx, dy, sx)
+                res = self.doDigitsRelToAbs('L', digits, dx, dy, sx, sy)
             if item == 'v':
                 tmp = " 0, " + params[ index + 1]
                 curX, curY, digits = self.convertRelToAbs(curX, curY, tmp)
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
-                res = self.doDigitsRelToAbs('L', digits, dx, dy, sx)
+                res = self.doDigitsRelToAbs('L', digits, dx, dy, sx, sy)
             if item == 'c':
                 curX, curY, digits = self.convertRelToAbs(curX, curY, params[ index + 1])
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
-                res = self.doDigitsRelToAbs('C', digits, dx, dy, sx)
+                res = self.doDigitsRelToAbs('C', digits, dx, dy, sx, sy)
                 pass
             if res is not None:
                 if newD == '':

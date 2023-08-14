@@ -5,7 +5,7 @@ import re
 from xml.etree.ElementTree import Element
 from changeSvgUtils import *
 
-def doPathSvg(parent, child, doTwo, morf, globalSize):
+def doPathSvg(parent, child, doTwo, morf, globalSize, sizeSvg):
     path = str(child.attrib)
     path = path.replace('Z', 'z')
 
@@ -16,7 +16,7 @@ def doPathSvg(parent, child, doTwo, morf, globalSize):
         found = m.group(1)
 
         svgPath = svgSinglePath(found)
-        newPath = svgPath.doPath(found, morf, globalSize)
+        newPath = svgPath.doPath(found, morf, globalSize, sizeSvg)
                     
         add = True
         width = '10'
@@ -58,7 +58,8 @@ root = tree.getroot()
 
 add = None
 doTwo = True
-doTwo = False
+doTwo = svgSinglePath.decodeIsTwo(morfDst)
+# doTwo = False
 # удаление ненужных ветвей 
 for child in root:
     index = child.tag.find('}') 
@@ -86,6 +87,11 @@ for ii in range(len(root)):
 globalSize = [minX, minY, maxX, maxY]            
 
 # обработка всех Path
+viewBox = root.attrib['viewBox']
+width = root.attrib['width']
+height = root.attrib['height']
+sizeSvg = [width, height, viewBox]
+
 for ii in range(len(root)):
     child = root[ii]
     index = child.tag.find('}') 
@@ -96,10 +102,10 @@ for ii in range(len(root)):
                 childG = child[iiG]
                 tstStG = childG.tag[index+1:]
                 if tstStG in 'path':
-                    doPathSvg(child, childG, doTwo, morfDst, globalSize)
+                    doPathSvg(child, childG, doTwo, morfDst, globalSize, sizeSvg)
                 pass
         if tstSt in 'path':
-            doPathSvg(root, child, doTwo, morfDst, globalSize)
+            doPathSvg(root, child, doTwo, morfDst, globalSize, sizeSvg)
 
 
 ET.register_namespace("", "http://www.w3.org/2001")

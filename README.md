@@ -8,18 +8,11 @@ pip install -r Requirements.txt
 сохранение необходимых зависимостей
 pip freeze > Requirements.txt
 
-git config --global user.email "andkir@mail.ru"
-git config --global user.name "andkir1024"
-
-pip install PyInstaller
-
-создание выполняемого файла
-pyinstaller --onefile main.py
-
 параметры преобразования svg
 dx=100_dy=100_sx=1.01_sy=1.02_cx=100_cy=100_a=45_m=0
 где dx dy смещение
-    sx sy масштабирование
+    src (любое значение) в файле остается оригинал
+    sx sy масштабирование (если sy < 0 то по высоте масштабируется пропорционально размерам)
     cx cy центр поворота  
     a угол поворота по часовой стрелке в градусах
     m модификация лекакла
