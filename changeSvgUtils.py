@@ -164,6 +164,7 @@ class svgSinglePath:
         sx = sy = 1
         cx = cy = 1
         a = 0
+        m = -1
         params = morf.split('_')
         for pp in params:
             vals = pp.split('=')
@@ -181,8 +182,10 @@ class svgSinglePath:
                 cy = float(vals[1])
             if vals[0] == 'a':
                 a = float(vals[1])
+            if vals[0] == 'm':
+                m = int(vals[1])
             pass
-        return dx, dy, sx, sy, cx, cy, a
+        return dx, dy, sx, sy, cx, cy, a, m
 
     def rotate(origin, point, angle):
         """
@@ -212,9 +215,10 @@ class svgSinglePath:
         params =re.split('([M|L|C|V|H|m|l|c|v|h])',pathPure)
         return params
     def doPath(self, path, morf, globalSize):
-        dx, dy, sx, sy, cx, cy, a = svgSinglePath.decodeMorph(morf)
-        dx = -globalSize[0]
-        dy = -globalSize[1]
+        dx, dy, sx, sy, cx, cy, a, m = svgSinglePath.decodeMorph(morf)
+        if m == 0:
+            dx = -globalSize[0]
+            dy = -globalSize[1]
         params =svgSinglePath.splitPath( path)
         newD = ''
         curX = curY = None
