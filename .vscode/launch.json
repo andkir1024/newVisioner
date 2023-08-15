@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Ubuntu Add",
+            "name": "Python: Ubuntu Add 1",
             "type": "python",
             "request": "launch",
             "program": "changeSvg.py",
