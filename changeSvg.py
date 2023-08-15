@@ -31,7 +31,7 @@ def doPathSvg(parent, child, doTwo, morf, globalSize, sizeSvg):
             newChild.attrib['fill']='none'
             parent.append(newChild)
     return
-
+# кординаты лекала
 minX = minY = 10000000
 maxX = maxY =-10000000 
 
