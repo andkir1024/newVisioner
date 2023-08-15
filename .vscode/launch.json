@@ -19,8 +19,10 @@
             "program": "changeSvg.py",
 
             
-            "args": ["src=0_m=1_cx=0_cy=0", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/test1.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
-            // "args": ["src=0_m=1_cx=0_cy=0", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/Смартфон_Honor_7A_1.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
+            // "args": ["src=0_sx=1.01_sy=1.005", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/test.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
+            // "args": ["src=0_m=1_cx=0_cy=0", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/test1.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
+
+            "args": ["src=0_sx=1.01_sy=1.005", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/Смартфон_Honor_7A_1.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
 
             // "args": ["m=1", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/Смартфон_Honor_7A.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
             // "args": ["src=0_m=1", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/test1.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
