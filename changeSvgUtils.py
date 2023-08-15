@@ -63,7 +63,7 @@ class svgSinglePath:
             else:
                 # pp = ((rs) * ((scaleY))) +  dy
                 pp = ((rs - self.centerY) * (scaleY)) + self.centerY + dy
-        pp = int(pp)
+        # pp = int(pp)
         return pp
     def doDigits(self, marker, digits, dx, dy, scaleX, scaleY):
         params = re.split(",| ", digits)    
@@ -291,6 +291,7 @@ in     Inches
                 res = self.doDigitsRelToAbs('L', digits, dx, dy, sx, sy)
             # относительный путь
             isLast = True if (len(params) - index -2)>0 else False
+            # isLast = True
             if item == 'l':
                 curX, curY, digits = self.convertRelToAbs(curX, curY, params[ index + 1])
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
@@ -312,15 +313,37 @@ in     Inches
             if item == 'c':
                 curX, curY, digits = self.convertRelToAbs(curX, curY, params[ index + 1])
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
+                # if isLast :
+                #     # digits = self.convertAbsToRel(curX, curY, digits)
+                #     res = self.doDigitsRelToAbs('c', digits, dx, dy, sx, sy)
+                # else:
+                if isLast :
+                    # digits[-2]=digits[0]
+                    # digits[-1]=digits[1]
+                    pass
+                    
                 res = self.doDigitsRelToAbs('C', digits, dx, dy, sx, sy)
-                pass
+                # if isLast :
+                    # res = self.loopCCmd(res)
             if res is not None:
                 if newD == '':
                     newD = res
                 else:
                     newD = newD + ' ' + res
+        # newD = self.loopCCmd(newD)
         newD = newD + 'Z'
         return newD
+    def loopCCmd(self, res):
+        result = re.split(",| ", res) 
+        result[-2] = result[0][1:]
+        result[-1] = result[1]
+        rs1 = ''
+        for index, rr in enumerate(result):
+            if index == 1:
+                rs1 += rr+' '
+            else:
+                rs1 += rr+','
+        return rs1[:-1]
     def convertVH(self, curX, curY, params, isV):
         digits = self.getDigits(params)
         if digits is not None:
@@ -345,15 +368,15 @@ in     Inches
                 elif all == 1: 
                     dX = curX + digits[iX]
                     dY = curY + digits[iY]
-                    digits[iX] = int(dX)
-                    digits[iY] = int(dY)
+                    digits[iX] = (dX)
+                    digits[iY] = (dY)
                     curX = dX
                     curY = dY
                 else:
                     dX = curX + digits[iX]
                     dY = curY + digits[iY]
-                    digits[iX] = int(dX)
-                    digits[iY] = int(dY)
+                    digits[iX] = (dX)
+                    digits[iY] = (dY)
                     partThree = (index+1) % 3
                     if partThree == 0:
                         curX = dX
@@ -361,3 +384,17 @@ in     Inches
                     pass
             return curX, curY, digits
         return None, None, None
+    def convertAbsToRel(self, curX, curY, digits):
+        if digits is not None:
+            all = int(len(digits)/2)
+            for index in range(all):
+                iX = index * 2
+                iY = (index * 2) + 1
+
+                dX = digits[iX] - curX
+                dY = digits[iY] - curY
+                digits[iX] = int(dX)
+                digits[iY] = int(dY)
+                partThree = (index+1) % 3
+            return digits
+        return None
