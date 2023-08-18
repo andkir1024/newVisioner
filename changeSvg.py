@@ -49,72 +49,76 @@ def getSizePathSvg(parent, child, doTwo, morf):
         pass
     return
 
+def doChangeSvg(morfDst, nameSrc, nameDst):
+    tree = ET.parse(nameSrc)
+    root = tree.getroot()
+
+    doTwo = True
+    doTwo = svgSinglePath.decodeIsTwo(morfDst)
+    # doTwo = False
+    # удаление ненужных ветвей 
+    for child in root:
+        index = child.tag.find('}') 
+        if index > 0:
+            tstSt = child.tag[index+1:]
+            if tstSt in 'namedview':
+                root.remove(child)
+
+    # расчет размеров
+    for ii in range(len(root)):
+        child = root[ii]
+        index = child.tag.find('}') 
+        if index > 0:
+            tstSt = child.tag[index+1:]
+            if tstSt in 'g':
+                for iiG in range(len(child)):
+                    childG = child[iiG]
+                    tstStG = childG.tag[index+1:]
+                    if tstStG in 'path':
+                        getSizePathSvg(child, childG, doTwo, morfDst)
+                    pass
+            if tstSt in 'path':
+                getSizePathSvg(root, child, doTwo, morfDst)
+                
+    globalSize = [minX, minY, maxX, maxY]            
+
+    # обработка всех Path
+    viewBox = root.attrib['viewBox']
+    width = root.attrib['width']
+    height = root.attrib['height']
+    sizeSvg = [width, height, viewBox]
+
+    for ii in range(len(root)):
+        child = root[ii]
+        index = child.tag.find('}') 
+        if index > 0:
+            tstSt = child.tag[index+1:]
+            if tstSt in 'g':
+                for iiG in range(len(child)):
+                    childG = child[iiG]
+                    tstStG = childG.tag[index+1:]
+                    if tstStG in 'path':
+                        doPathSvg(child, childG, doTwo, morfDst, globalSize, sizeSvg)
+                    pass
+            if tstSt in 'path':
+                doPathSvg(root, child, doTwo, morfDst, globalSize, sizeSvg)
+
+
+    ET.register_namespace("", "http://www.w3.org/2001")
+    tree.write(nameDst) 
+
+    # удаление служебных ненужных символов
+    with open(nameDst, "r") as f:
+        lines = f.readlines()
+    with open(nameDst, "w") as f:
+        for line in lines:
+            line = line.replace('ns0:', '')
+            line = line.replace(':ns0', '')
+            f.write(line)
+    print('finOk')
+    
 morfDst = sys.argv[1]
 nameSrc = sys.argv[2]
 nameDst = sys.argv[3]
-tree = ET.parse(nameSrc)
-root = tree.getroot()
-
-doTwo = True
-doTwo = svgSinglePath.decodeIsTwo(morfDst)
-# doTwo = False
-# удаление ненужных ветвей 
-for child in root:
-    index = child.tag.find('}') 
-    if index > 0:
-        tstSt = child.tag[index+1:]
-        if tstSt in 'namedview':
-            root.remove(child)
-
-# расчет размеров
-for ii in range(len(root)):
-    child = root[ii]
-    index = child.tag.find('}') 
-    if index > 0:
-        tstSt = child.tag[index+1:]
-        if tstSt in 'g':
-            for iiG in range(len(child)):
-                childG = child[iiG]
-                tstStG = childG.tag[index+1:]
-                if tstStG in 'path':
-                    getSizePathSvg(child, childG, doTwo, morfDst)
-                pass
-        if tstSt in 'path':
-            getSizePathSvg(root, child, doTwo, morfDst)
-            
-globalSize = [minX, minY, maxX, maxY]            
-
-# обработка всех Path
-viewBox = root.attrib['viewBox']
-width = root.attrib['width']
-height = root.attrib['height']
-sizeSvg = [width, height, viewBox]
-
-for ii in range(len(root)):
-    child = root[ii]
-    index = child.tag.find('}') 
-    if index > 0:
-        tstSt = child.tag[index+1:]
-        if tstSt in 'g':
-            for iiG in range(len(child)):
-                childG = child[iiG]
-                tstStG = childG.tag[index+1:]
-                if tstStG in 'path':
-                    doPathSvg(child, childG, doTwo, morfDst, globalSize, sizeSvg)
-                pass
-        if tstSt in 'path':
-            doPathSvg(root, child, doTwo, morfDst, globalSize, sizeSvg)
-
-
-ET.register_namespace("", "http://www.w3.org/2001")
-tree.write(nameDst) 
-
-# удаление служебных ненужных символов
-with open(nameDst, "r") as f:
-    lines = f.readlines()
-with open(nameDst, "w") as f:
-    for line in lines:
-        line = line.replace('ns0:', '')
-        line = line.replace(':ns0', '')
-        f.write(line)
-print('finOk')
+doChangeSvg(morfDst, nameSrc, nameDst)
+    

@@ -1,8 +1,10 @@
 import os
 import shutil
+import pathlib
+from changeSvg import *
 
-dirWork = '/home/andy/Works/andyWork/lekalo/svgAll'
-dirDst  = '/home/andy/Works/andyWork/lekalo/svgAllDst'
+dirWork = '/home/andy/Works/andyWork/lekalo/svgAll/out/'
+dirDst  = '/home/andy/Works/andyWork/lekalo/svgAllDst/'
 
 def getFiles(filesDir):
     if os.path.isdir(filesDir) == True:
@@ -14,5 +16,18 @@ def getFiles(filesDir):
     return None
 
 listFiles = getFiles(dirWork)
+morfDst = 'src=0_sx=1.01_sy=1.005'
+allOk =0
+allBad =0
 for file in listFiles:
-    pass
+    nameSrc = file
+    name = pathlib.Path(file).stem
+    nameDst = dirDst + name + '.svg'
+    try:
+        doChangeSvg(morfDst, nameSrc, nameDst)
+    except Exception:
+        allBad +=1
+        print('Bad' + str(allBad))
+    allOk +=1
+print('OK ' + str(allOk))
+print('Bad ' + str(allBad))
