@@ -17,11 +17,16 @@
             "request": "launch",
             "program": "changeSvg.py",
 
+            // "args": ["src=0_cx=7443_cy=3122_a=5", "D:/Projects/myProject/newVisioner/lekalo/Смартфон_Honor_7A_1.svg","D:/Projects/myProject/newVisioner/lekalo/output3.svg"],
+            // "args": ["src=0_sx=0.99_sy=0.995", "D:/Projects/myProject/newVisioner/lekalo/Смартфон_Honor_7A_1.svg","D:/Projects/myProject/newVisioner/lekalo/output4.svg"],
+            // "args": ["src=0_sx=0.99_sy=1.01", "D:/Projects/myProject/newVisioner/lekalo/Смартфон_Apple_iPhone_8.svg","D:/Projects/myProject/newVisioner/lekalo/output5.svg"],
+            // "args": ["src=0_sx=0.99_sy=1.01", "D:/Projects/myProject/newVisioner/lekalo/Смартфон_Apple_iPhone_8.svg","D:/Projects/myProject/newVisioner/lekalo/output5.svg"],
+            "args": ["src=0_sx=1.01_sy=1.005", "D:/Projects/myProject/newVisioner/lekalo/Смартфон_Apple_iPhone_8.svg","D:/Projects/myProject/newVisioner/lekalo/output5.svg"],
             
             // "args": ["src=0_sx=1.01_sy=1.005", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/test.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
             // "args": ["src=0_m=1_cx=0_cy=0", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/test1.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
 
-            "args": ["src=0_sx=1.01_sy=1.005", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/Смартфон_Honor_7A_1.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
+            // "args": ["src=0_sx=1.01_sy=1.005", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/Смартфон_Honor_7A_1.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
 
             // "args": ["m=1", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/Смартфон_Honor_7A.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
             // "args": ["src=0_m=1", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/test1.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
