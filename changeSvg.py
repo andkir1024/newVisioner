@@ -1,3 +1,4 @@
+import codecs
 import copy
 import sys
 import xml.etree.ElementTree as ET
@@ -110,7 +111,8 @@ def doChangeSvg(morfDst, nameSrc, nameDst):
     # удаление служебных ненужных символов
     with open(nameDst, "r") as f:
         lines = f.readlines()
-    with open(nameDst, "w") as f:
+    with codecs.open(nameDst, "w","utf-8") as f:
+    # with open(nameDst, "w", "utf-8") as f:
         for line in lines:
             line = line.replace('ns0:', '')
             line = line.replace(':ns0', '')
