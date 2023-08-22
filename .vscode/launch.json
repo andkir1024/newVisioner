@@ -29,6 +29,7 @@
             // "args": ["src=0_sx=0.99_sy=1.01", "D:/Projects/myProject/newVisioner/lekalo/Смартфон_Apple_iPhone_8.svg","D:/Projects/myProject/newVisioner/lekalo/output5.svg"],
             // "args": ["src=0_sx=0.99_sy=1.01", "D:/Projects/myProject/newVisioner/lekalo/Смартфон_Apple_iPhone_8.svg","D:/Projects/myProject/newVisioner/lekalo/output5.svg"],
             "args": ["src=0_sx=1.01_sy=1.005", "D:/Projects/myProject/newVisioner/lekalo/Смартфон_Apple_iPhone_8.svg","D:/Projects/myProject/newVisioner/lekalo/output5.svg"],
+            // "args": ["src=0", "D:/Projects/myProject/newVisioner/lekalo/Смартфон_Apple_iPhone_8.svg","D:/Projects/myProject/newVisioner/lekalo/output5.svg"],
             
             // "args": ["src=0_sx=1.01_sy=1.005", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/test.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],
             // "args": ["src=0_m=1_cx=0_cy=0", "D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/test1.svg","D:/Projects/InsiTech/botProject/Adminka/LecalaConverter/lekalo/output3.svg"],

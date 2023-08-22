@@ -293,7 +293,7 @@ in     Inches
             isLast = True if (len(params) - index -2)>0 else False
             # isLast = True
             if item == 'l':
-                curX, curY, digits = self.convertRelToAbs(curX, curY, params[ index + 1])
+                curX, curY, digits = self.convertRelToAbs(curX, curY, params[ index + 1], True)
                 svgSinglePath.rotateDigits(cx, cy, digits, a)
                 if isLast :
                     res = self.doDigitsRelToAbs('L', digits, dx, dy, sx, sy)
@@ -355,7 +355,7 @@ in     Inches
                 digits[1] = curY
             return curX, curY, digits
         return None, None, None
-    def convertRelToAbs(self, curX, curY, params):
+    def convertRelToAbs(self, curX, curY, params, forceL = False):
         digits = self.getDigits(params)
         if digits is not None:
             all = int(len(digits)/2)
@@ -378,7 +378,7 @@ in     Inches
                     digits[iX] = (dX)
                     digits[iY] = (dY)
                     partThree = (index+1) % 3
-                    if partThree == 0:
+                    if partThree == 0 or forceL == True:
                         curX = dX
                         curY = dY
                     pass
