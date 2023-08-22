@@ -30,7 +30,8 @@ allBad =0
 for file in listFiles:
     nameSrc = file
     name = pathlib.Path(file).stem
-    morfDst = 'src=0_sx=1.01_sy=1.005'
+    morfDst = 'src=0_sx=0.9_sy=0.9'
+    # morfDst = 'src=0_sx=1.01_sy=1.005'
     # morfDst = 'src=0_a=1'
     # morfDst = 'a=1'
     nameDst = dirDst + name + '.svg'
