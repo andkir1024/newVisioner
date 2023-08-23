@@ -42,7 +42,15 @@ def getSizePathSvg(parent, child, doTwo, morf):
     path = path.replace('Z', 'z')
 
     child.attrib.pop("class", None)
+    m1 = re.search('d=\':(.+?)z', path)
     m = re.search('d\':(.+?)z', path)
+    
+    s = 'STARTabcdENDefSTARTghiEND'
+    a = 'START'
+    b = 'END'
+    out = re.findall(a+'(.+?)'+b, s)
+    out1 = re.findall('d\''+'(.+?)'+'z', path)
+    
     if m:
         found = m.group(1)
         svgPath = svgSinglePath(found)
