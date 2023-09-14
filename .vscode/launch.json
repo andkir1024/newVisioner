@@ -16,7 +16,8 @@
             "type": "python",
             "request": "launch",
             "program": "changeSvg.py",
-            "args": ["src=0_sx=1.01_sy=1.005", "/home/andy/Works/andyWork/lekalo/svgAll/bad.svg","/home/andy/Works/andyWork/lekalo/output5.svg"],
+            "args": ["src=0_sx=1.01_sy=1.005", "/home/andy/Works/andyWork/bad0.svg","/home/andy/Works/andyWork/output0.svg"],
+            // "args": ["src=0_sx=1.01_sy=1.005", "/home/andy/Works/andyWork/lekalo/svgAll/bad.svg","/home/andy/Works/andyWork/lekalo/output5.svg"],
         },
         {
             "name": "Python: Console win 10",

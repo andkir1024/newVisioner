@@ -109,6 +109,10 @@ class svgSinglePath:
         self.minX =self.minY = 10000000
         self.maxX =self.maxY =-10000000
         self.propLekalo = 1
+    # m = re.search('d\':(.+?)z', path)
+        m = re.search('id=:(.+?)\"', path)
+        m1 = path[path.find("id=\"")+1 : path.find("\"")]
+
         params =svgSinglePath.splitPath( path)
         for index, item in enumerate(params):
             res = None
