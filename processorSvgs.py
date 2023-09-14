@@ -9,7 +9,7 @@ import shutil
 import pathlib
 from changeSvg import *
 
-dirWork = '/home/andy/Works/andyWork/lekalo/svgAll/out/'
+dirWork = '/home/andy/Works/andyWork/lekalo/outSvg/'
 dirDst  = '/home/andy/Works/andyWork/lekalo/svgAllDst/'
 
 # dirWork = '/home/andy/Works/andyWork/lekalo/svgAll/'
