@@ -16,7 +16,7 @@
             "type": "python",
             "request": "launch",
             "program": "changeSvg.py",
-            "args": ["src=0_sx=1.01_sy=1.005", "/home/andy/Works/andyWork/bad2.svg","/home/andy/Works/andyWork/output0.svg"],
+            "args": ["src=0_sx=2.01_sy=2.005", "/home/andy/Works/andyWork/bad3.svg","/home/andy/Works/andyWork/output0.svg"],
             // "args": ["src=0_sx=1.01_sy=1.005", "/home/andy/Works/andyWork/lekalo/svgAll/bad.svg","/home/andy/Works/andyWork/lekalo/output5.svg"],
         },
         {
